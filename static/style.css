@@ -297,10 +297,10 @@ input::placeholder {
 /* ========== 2FA CHOICE — CARTES ========== */
 .method-cards {
     display: flex;
-    gap: 1.2rem;
-    width: 100%;
-    max-width: 700px;
-    margin-top: 0;
+    gap: 1.5rem;
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .method-card {
@@ -308,12 +308,13 @@ input::placeholder {
     background: #ffffff;
     border: 2px solid #e5e7eb;
     border-radius: 16px;
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 2.5rem;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
     text-decoration: none;
     display: block;
+    min-height: 380px;
 }
 
 .method-card:hover {
