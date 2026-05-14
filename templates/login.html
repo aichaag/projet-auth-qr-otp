@@ -3,7 +3,9 @@
 {% block content %}
 
 <div class="page-header">
-    <span class="input-icon"><i data-lucide="key-round"></i></span>
+    <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="11" height="11" x="1" y="1" rx="2" ry="2"/><path d="M15 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/><path d="M11 10a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/></svg>
+    </div>
     <h1>Système d'Authentification Sécurisé</h1>
     <p>Protection de votre compte avec l'authentification à deux facteurs</p>
 </div>
@@ -18,7 +20,9 @@
         <div class="form-group">
             {{ form.email.label }}
             <div class="input-wrapper">
-                <span class="input-icon">✉</span>
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
                 {{ form.email(placeholder="vous@exemple.com") }}
             </div>
             {% for error in form.email.errors %}
@@ -29,7 +33,9 @@
         <div class="form-group">
             {{ form.password.label }}
             <div class="input-wrapper">
-                <span class="input-icon"><i data-lucide="lock"></i></span>
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+                </span>
                 {{ form.password(placeholder="Entrez votre mot de passe") }}
             </div>
             {% for error in form.password.errors %}
@@ -46,8 +52,8 @@
 </div>
 
 <div class="security-note">
-    🔒 Sécurisé avec un chiffrement 256 bits
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="11" height="11" x="1" y="1" rx="2" ry="2"/><path d="M15 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+    Sécurisé avec un chiffrement 256 bits
 </div>
-<script>lucide.createIcons();</script>
 
 {% endblock %}
