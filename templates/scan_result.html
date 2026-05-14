@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Résultat du Scan — SecureAuth{% endblock %}
+{% block content %}
+
+{% if success %}
+<div class="scan-result scan-success">
+    <div class="scan-icon">✅</div>
+    <h1>Authentification Confirmée !</h1>
+    <p>{{ message }}</p>
+    <p style="margin-top: 0.8rem; font-weight: 600;">Vous pouvez retourner à votre ordinateur.</p>
+</div>
+{% else %}
+<div class="scan-result scan-danger">
+    <div class="scan-icon">❌</div>
+    <h1>Échec de l'Authentification</h1>
+    <p>{{ message }}</p>
+    <p style="margin-top: 0.8rem;">Veuillez réessayer en vous reconnectant.</p>
+</div>
+{% endif %}
+
+<div class="security-note" style="margin-top: 1.5rem;">🛡 Authentification sécurisée à deux facteurs</div>
+
+{% endblock %}

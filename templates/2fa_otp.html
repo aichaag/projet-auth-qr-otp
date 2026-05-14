@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Vérification OTP — SecureAuth{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <div class="header-icon">📱</div>
+    <h1>Entrez le Code de Vérification</h1>
+    <p>Nous avons envoyé un code à 6 chiffres à <strong>{{ user.email }}</strong></p>
+</div>
+
+<div class="card">
+    <div class="card-title">Vérification OTP</div>
+    <div class="card-subtitle">Veuillez entrer le mot de passe à usage unique pour vérifier votre identité</div>
+
+    <form method="POST" id="otp-form">
+        {{ form.hidden_tag() }}
+
+        <!-- 6 cases séparées -->
+        <div class="otp-boxes">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+        </div>
+
+        <!-- Champ caché qui reçoit le code complet -->
+        {{ form.code(id="otp-hidden", style="display:none;") }}
+
+        <!-- Timer -->
+        <div class="otp-timer">
+            Le code expirera dans <span id="countdown">5:00</span>
+        </div>
+
+        <button type="submit" class="btn-primary">Vérifier le Code</button>
+    </form>
+
+    <div class="otp-resend">
+        Vous n'avez pas reçu le code ?
+        <a href="{{ url_for('auth.twofa_otp') }}">↻ Renvoyer le Code</a>
+    </div>
+</div>
+
+<div class="security-note">🛡 Authentification sécurisée à deux facteurs</div>
+
+<script>
+    // Navigation entre les cases
+    const inputs = document.querySelectorAll('.otp-input');
+    const hidden = document.getElementById('otp-hidden');
+
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+            updateHidden();
+        });
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Backspace' && !this.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+
+        // Coller un code entier
+        input.addEventListener('paste', function (e) {
+            e.preventDefault();
+            const pasted = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
+            pasted.split('').forEach((char, i) => {
+                if (inputs[i]) inputs[i].value = char;
+            });
+            updateHidden();
+            const last = Math.min(pasted.length, inputs.length) - 1;
+            inputs[last].focus();
+        });
+    });
+
+    function updateHidden() {
+        hidden.value = Array.from(inputs).map(i => i.value).join('');
+    }
+
+    // Soumission : vérifie que les 6 cases sont remplies
+    document.getElementById('otp-form').addEventListener('submit', function (e) {
+        updateHidden();
+        if (hidden.value.length < 6) {
+            e.preventDefault();
+            alert('Veuillez entrer les 6 chiffres du code.');
+        }
+    });
+
+    // Timer 5 minutes
+    let totalSeconds = 300;
+    const countdown = document.getElementById('countdown');
+    const timer = setInterval(() => {
+        totalSeconds--;
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        countdown.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+        if (totalSeconds <= 0) {
+            clearInterval(timer);
+            countdown.textContent = 'Expiré';
+            countdown.style.color = '#dc2626';
+        }
+    }, 1000);
+
+    // Focus sur la première case au chargement
+    inputs[0].focus();
+</script>
+
+{% endblock %}

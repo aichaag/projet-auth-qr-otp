@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Tableau de Bord — SecureAuth{% endblock %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    <!-- En-tête -->
+    <div class="dashboard-header">
+        <h1>
+            Bienvenue, {{ current_user.full_name or current_user.email }} !
+            <span class="check-icon">✅</span>
+        </h1>
+        <p>Votre compte est protégé par une authentification à deux facteurs</p>
+    </div>
+
+    <!-- Grille principale : Profil + Sécurité -->
+    <div class="dashboard-grid">
+
+        <!-- Carte Profil -->
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <div class="dash-card-icon icon-blue">👤</div>
+                <div>
+                    <h3>Informations du Profil</h3>
+                    <p>Détails de votre compte</p>
+                </div>
+            </div>
+
+            <div class="profile-row">
+                <span class="row-icon">👤</span>
+                <div>
+                    <div class="row-label">Nom Complet</div>
+                    <div class="row-value">{{ current_user.full_name or '—' }}</div>
+                </div>
+            </div>
+
+            <div class="profile-row">
+                <span class="row-icon">✉</span>
+                <div>
+                    <div class="row-label">Adresse Email</div>
+                    <div class="row-value">{{ current_user.email }}</div>
+                </div>
+            </div>
+
+            <div class="profile-row">
+                <span class="row-icon">📞</span>
+                <div>
+                    <div class="row-label">Numéro de Téléphone</div>
+                    <div class="row-value">{{ current_user.phone_number or '—' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Sécurité -->
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <div class="dash-card-icon icon-green">🛡</div>
+                <div>
+                    <h3>Statut de Sécurité</h3>
+                    <p>Protection de votre compte</p>
+                </div>
+            </div>
+
+            <div class="security-badge">
+                <span class="badge-icon">✅</span>
+                <div>
+                    <h4>Compte Sécurisé</h4>
+                    <p>L'authentification à deux facteurs est active sur votre compte</p>
+                </div>
+            </div>
+
+            <div class="security-row">
+                <span class="sec-label">🔒 Protection par Mot de Passe</span>
+                <span class="tag tag-green">Actif</span>
+            </div>
+
+            <div class="security-row">
+                <span class="sec-label">🛡 Vérification 2FA</span>
+                {% if logs and logs[0].method == 'qr' %}
+                    <span class="tag tag-blue">QR Code</span>
+                {% elif logs and logs[0].method == 'otp' %}
+                    <span class="tag tag-blue">OTP</span>
+                {% else %}
+                    <span class="tag tag-blue">Active</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 3 cartes du bas -->
+    <div class="dashboard-features">
+        <div class="feature-card">
+            <div class="feat-icon icon-blue">🛡</div>
+            <h4>Sécurité Renforcée</h4>
+            <p>Votre compte utilise un chiffrement 256 bits</p>
+        </div>
+        <div class="feature-card">
+            <div class="feat-icon icon-green">✅</div>
+            <h4>Compte Vérifié</h4>
+            <p>Email et téléphone vérifiés avec succès</p>
+        </div>
+        <div class="feature-card">
+            <div class="feat-icon icon-purple">🔐</div>
+            <h4>Protection des Données</h4>
+            <p>Vos données sont sécurisées et privées</p>
+        </div>
+    </div>
+
+    <!-- Historique des connexions -->
+    {% if logs %}
+    <div class="dash-card" style="margin-bottom: 2rem;">
+        <div class="dash-card-header">
+            <div class="dash-card-icon icon-blue">📋</div>
+            <div>
+                <h3>Historique des Connexions</h3>
+                <p>Vos 10 dernières tentatives</p>
+            </div>
+        </div>
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Méthode</th>
+                    <th>Adresse IP</th>
+                    <th>Statut</th>
+                    <th>Détail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>
+                        {% if log.method == 'otp' %}📱 OTP
+                        {% elif log.method == 'qr' %}⊞ QR Code
+                        {% else %}—{% endif %}
+                    </td>
+                    <td>{{ log.ip_address or '—' }}</td>
+                    <td>
+                        {% if log.success %}
+                            <span class="badge badge-success">✔ Succès</span>
+                        {% else %}
+                            <span class="badge badge-danger">✘ Échec</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if log.failure_reason == 'bad_password' %}Mauvais mot de passe
+                        {% elif log.failure_reason == 'otp_expired' %}OTP expiré
+                        {% elif log.failure_reason == 'max_attempts' %}Trop de tentatives
+                        {% elif log.failure_reason == 'qr_expired' %}QR Code expiré
+                        {% else %}—{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

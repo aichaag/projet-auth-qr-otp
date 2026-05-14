@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Connexion — SecureAuth{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <div class="header-icon">🔒</div>
+    <h1>Système d'Authentification Sécurisé</h1>
+    <p>Protection de votre compte avec l'authentification à deux facteurs</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Bienvenue</div>
+    <div class="card-subtitle">Entrez vos identifiants pour accéder à votre compte</div>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.email.label }}
+            <div class="input-wrapper">
+                <span class="input-icon">✉</span>
+                {{ form.email(placeholder="vous@exemple.com") }}
+            </div>
+            {% for error in form.email.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label }}
+            <div class="input-wrapper">
+                <span class="input-icon">🔑</span>
+                {{ form.password(placeholder="Entrez votre mot de passe") }}
+            </div>
+            {% for error in form.password.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-primary">Connexion</button>
+    </form>
+
+    <div class="form-footer">
+        Vous n'avez pas de compte ? <a href="{{ url_for('auth.register') }}">S'inscrire</a>
+    </div>
+</div>
+
+<div class="security-note">
+    🔒 Sécurisé avec un chiffrement 256 bits
+</div>
+
+{% endblock %}
