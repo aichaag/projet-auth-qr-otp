@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="page-header">
-    <div class="header-icon">🔒</div>
+    <div class="header-icon"><i data-lucide="lock"></i></div>
     <h1>Système d'Authentification Sécurisé</h1>
     <p>Protection de votre compte avec l'authentification à deux facteurs</p>
 </div>
@@ -29,7 +29,7 @@
         <div class="form-group">
             {{ form.password.label }}
             <div class="input-wrapper">
-                <span class="input-icon">🔑</span>
+                <span class="input-icon"><i data-lucide="lock"></i></span>
                 {{ form.password(placeholder="Entrez votre mot de passe") }}
             </div>
             {% for error in form.password.errors %}
