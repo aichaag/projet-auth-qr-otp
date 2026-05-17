@@ -759,15 +759,14 @@ input::placeholder {
 /* ========== TÉLÉPHONE INTERNATIONAL ========== */
 .phone-row {
     display: flex;
-    gap: 0.5rem;
-    align-items: stretch;
+    gap: 0.4rem;
+    align-items: center;
     width: 100%;
-    overflow: hidden;
 }
 
 .country-select {
-    flex: 0 0 100px;
-    width: 100px;
+    flex: 0 0 130px;
+    width: 130px;
     min-width: 0;
     padding: 0.75rem 0.3rem;
     border: 1.5px solid #e5e7eb;
@@ -776,7 +775,6 @@ input::placeholder {
     color: #1a1a2e;
     background-color: #f9fafb;
     cursor: pointer;
-    transition: border-color 0.2s ease;
 }
 
 .country-select:focus {
@@ -786,15 +784,15 @@ input::placeholder {
 }
 
 .phone-input {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
+    width: 100%;
     padding: 0.75rem 0.8rem;
     border: 1.5px solid #e5e7eb;
     border-radius: 10px;
     font-size: 0.95rem;
     color: #1a1a2e;
     background-color: #f9fafb;
-    transition: all 0.2s ease;
 }
 
 .phone-input:focus {
