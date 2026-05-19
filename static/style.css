@@ -765,16 +765,30 @@ input::placeholder {
 }
 
 .country-select {
-    flex: 0 0 130px;
-    width: 130px;
+    flex: 0 0 180px;
+    width: 180px;
     min-width: 0;
-    padding: 0.75rem 0.3rem;
+    padding: 0.75rem 0.5rem;
     border: 1.5px solid #e5e7eb;
     border-radius: 10px;
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     color: #1a1a2e;
     background-color: #f9fafb;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.phone-input {
+    flex: 1 1 auto;
+    min-width: 80px;
+    padding: 0.75rem 0.8rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+    background-color: #f9fafb;
 }
 
 .country-select:focus {
@@ -783,17 +797,7 @@ input::placeholder {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.phone-input {
-    flex: 1 1 auto;
-    min-width: 0;
-    width: 100%;
-    padding: 0.75rem 0.8rem;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    color: #1a1a2e;
-    background-color: #f9fafb;
-}
+
 
 .phone-input:focus {
     outline: none;
