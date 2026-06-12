@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SecureAuth">
+<link rel="apple-touch-icon" href="/static/icons/icon.svg">
 </head>
 <body>
     <nav>
@@ -47,5 +54,18 @@
 
     <!-- Initialisation Lucide -->
     <script>lucide.createIcons();</script>
+<!-- Enregistrement Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/static/service-worker.js')
+                .then(function(reg) {
+                    console.log('Service Worker enregistré');
+                }).catch(function(err) {
+                    console.log('Erreur Service Worker:', err);
+                });
+        });
+    }
+</script> 
 </body>
 </html>
